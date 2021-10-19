@@ -1,22 +1,23 @@
-const Cart = require ('../schemas/cart.schema');
+const Cart = require ('../../models/cart.model');
 
 module.exports = {
     Query : {
-        Carts : () => {
-            return Cart.find()
-            .populate('products').populate('user');
+        carts: () => {
+            const res = Cart.find().populate('products').populate('user').catch((err)=>console.log(err));
+            return res;
         },
 
-        Cart: (parent, args) => {
-            console.log("Get by id :", args.id);
+        cart: (parent, args) => {
+            console.log("Get cart by id :", args.id);
             return Cart.findById(args.id);
         }
     },
     Mutation : {
         createCart : (parent, args) => {
             const newCart = new Cart ({
-                amountTotal: args.amountTotal,
-                user : args.user,
+                totalAmount: args.totalAmount,
+                deliveryPrice: args.deliveryPrice,
+                user: args.user,
                 products: args.products,
             });
             return newCart.save();

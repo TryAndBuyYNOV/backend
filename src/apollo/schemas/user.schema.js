@@ -15,7 +15,7 @@ module.exports = gql`
         password: String!
         avatar: String
         address: String!
-        role: Role
+        role: Role!
     }
     extend type Query {
         users: [User]

@@ -8,7 +8,7 @@ module.exports = {
         return res;
     },
     user: (parent, args) => {
-      // console.log("Get user by id :",args.id);
+      console.log("Get user by id :",args.id);
       return User.findById(args.id).catch((err)=>console.log(err));
     }
   },

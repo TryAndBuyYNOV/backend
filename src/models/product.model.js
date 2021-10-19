@@ -5,10 +5,10 @@ const productSchema = new Schema({
     title: String,
     priceHT: Number,
     description: String,
-    imgUrl: String,
+    imgUrl: [String],
     category: {
         type: String,
-        enum: ['Shoes','T-Shirt','Pants','Jacket','Coat','Accessory'],
+        enum: ['Shoes','TShirt','Pants','Jacket','Coat','Accessory'],
     }
 },
     { timestamps: true }
