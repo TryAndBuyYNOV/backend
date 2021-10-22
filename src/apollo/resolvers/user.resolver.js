@@ -1,4 +1,6 @@
 const User = require('../../models/user.model');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt-nodejs');
 // const Role = require('../../models/user.model');
 
 module.exports = {
@@ -10,8 +12,42 @@ module.exports = {
     user: (parent, args) => {
       // console.log("Get user by id :",args.id);
       return User.findById(args.id).catch((err)=>console.log(err));
+    },
+    login: (parent, args) => {
+      const email = args.email;
+      return User.findOne({ email:email })
+      .then((user) => {
+        if(!user) {
+          throw new UserInputError(`invalid ${email} value`);
+        }
+        let passwordIsValide = bcrypt.compareSync(args.password, user.password);
+        if(!passwordIsValid){
+          throw new AuthenticationError(`invalid ${password} value`);
+        }
+        const token = jwt.sign({
+          id: user._id,
+          admin: user.isAdmin
+        },
+        process.env.SECRET,
+        {
+          expiresIn: EXPIRE_IN_ONE_DAY
+        });
+        const result = {auth: true, token};
+        return(result);
+      })
+      .catch((err) => {
+        throw err;
+      })
+    },
+    logout: () => {
+      const result = {
+        auth: false,
+        token: null
+      };
+      return (result);
     }
   },
+
   Mutation: {
     createUser: (parent, args) => {
         const newUser= new User({
