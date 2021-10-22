@@ -1,6 +1,10 @@
 const User = require('../../models/user.model');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
+const AuthenticationError = require('apollo-server-errors');
+const UserInputError = require('apollo-server-errors');
+
+const EXPIRE_IN_ONE_DAY = process.env.EXPIRE_IN_ONE_DAY * 24;
 
 module.exports = {
   Query: {
@@ -16,16 +20,17 @@ module.exports = {
       const email = args.email;
       return User.findOne({ email:email })
       .then((user) => {
+        console.log('find user :',user);
         if(!user) {
-          throw new UserInputError(`invalid ${email} value`);
+          throw new UserInputError(`invalid email value`);
         }
-        let passwordIsValide = bcrypt.compareSync(args.password, user.password);
+        const passwordIsValid = bcrypt.compareSync(args.password, user.password);
         if(!passwordIsValid){
-          throw new AuthenticationError(`invalid ${password} value`);
+          throw new AuthenticationError(`invalid password value`);
         }
         const token = jwt.sign({
           id: user._id,
-          admin: user.isAdmin
+          role: user.role
         },
         process.env.SECRET,
         {
@@ -48,13 +53,14 @@ module.exports = {
   },
   Mutation: {
     createUser: (parent, args) => {
+        let hashedPassword = bcrypt.hashSync(args.password, 10);
         const newUser= new User({
         firstName: args.firstName,
         lastName: args.lastName,
         phoneNumber: args.phoneNumber,
         address: args.address,
         email: args.email,
-        password: args.password,
+        password: hashedPassword,
         avatar: args.avatar,
         role: args.role
       });
@@ -66,18 +72,6 @@ module.exports = {
     },
     deleteUser: (parent, args) => {
         return User.findByIdAndDelete(args.id).catch((err)=>console.log(err));
-    },
-    register: (root, args) => {
-      let hashedPassword = bcrypt.hashSync(args.user.password, 10);
-      const newUser = new User({
-          firstName: args.user.firstName,
-          lastName: args.user.lastName,
-          email: args.user.email,
-          password: hashedPassword,
-          age: args.user.age,
-          isAdmin: args.user.isAdmin
-      });
-      return newUser.save();
-  }
+    }
   },
 };
