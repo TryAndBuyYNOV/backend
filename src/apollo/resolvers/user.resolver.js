@@ -20,7 +20,6 @@ module.exports = {
       const email = args.email;
       return User.findOne({ email:email })
       .then((user) => {
-        console.log('find user :',user);
         if(!user) {
           throw new UserInputError(`invalid email value`);
         }
