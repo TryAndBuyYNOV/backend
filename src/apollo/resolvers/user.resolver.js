@@ -1,8 +1,12 @@
+const Joi = require('joi');
+const Signup = require('../schemas/');
 const User = require('../../models/user.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const AuthenticationError = require('apollo-server-errors');
 const UserInputError = require('apollo-server-errors');
+const userValidationSchema = require ('../middleware/user.validation');
+
 
 const EXPIRE_IN_ONE_DAY = process.env.EXPIRE_IN_ONE_DAY * 24;
 
@@ -66,7 +70,24 @@ module.exports = {
           avatar: args.avatar,
           role: args.role
           });
-          return newUser.save();
+            const validation = userValidationSchema.validate(newUser);
+          
+          
+            if(validation.error)
+            {
+              console.log('error-----',validation.error);
+              
+            }
+              else
+              {
+
+            
+                console.log('success !!!!!!!!!!');
+
+
+                return newUser.save();
+
+            }
         }
       else {
         console.log('Account already existed');
