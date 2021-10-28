@@ -52,18 +52,28 @@ module.exports = {
   },
   Mutation: {
     createUser: (parent, args) => {
-        let hashedPassword = bcrypt.hashSync(args.password, 10);
-        const newUser= new User({
-        firstName: args.firstName,
-        lastName: args.lastName,
-        phoneNumber: args.phoneNumber,
-        address: args.address,
-        email: args.email,
-        password: hashedPassword,
-        avatar: args.avatar,
-        role: args.role
+      const email = args.email;
+      return User.findOne({ email: email}).then((user)=> {
+        if(!user){
+          let hashedPassword = bcrypt.hashSync(args.password, 10);
+          const newUser= new User({
+          firstName: args.firstName,
+          lastName: args.lastName,
+          phoneNumber: args.phoneNumber,
+          address: args.address,
+          email: args.email,
+          password: hashedPassword,
+          avatar: args.avatar,
+          role: args.role
+          });
+          return newUser.save();
+        }
+      else {
+        console.log('Account already existed');
+      }
+      }).catch((err)=> {
+        console.log(err)
       });
-      return newUser.save();
     },
     updateUser: (parent, args) => {
         const res = User.findByIdAndUpdate(args.id,{firstName,lastName,email,password,avatar,role}).catch((err)=>{console.log(err)});

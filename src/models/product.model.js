@@ -9,6 +9,10 @@ const productSchema = new Schema({
     category: {
         type: String,
         enum: ['Shoes','TShirt','Pants','Jacket','Coat','Accessory'],
+    },
+    status: {
+        type: String,
+        enum: [ 'ToSell', 'SellingInProgress','Selled']
     }
 },
     { timestamps: true }
