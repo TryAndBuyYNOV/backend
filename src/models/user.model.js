@@ -8,7 +8,11 @@ const userSchema = new Schema({
     email: String,
     password: String,
     avatar: String,
-    address: String,
+    address: {
+        lat: Number,
+        lng: Number,
+        localisation: String
+    },
     role: {
         type: String,
         enum: ['Buyer','Seller','Admin'],
