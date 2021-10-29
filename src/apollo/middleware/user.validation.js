@@ -10,7 +10,8 @@ exports.validate = function (data) {
         email: Joi.string (). email (). required ().empty(''),
         password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
         avatar: Joi.string (). required ().empty(''),
-        role:Joi.string ().required ().empty('')
+        role:Joi.string ().required ().empty('') 
+        
        
     });
 
