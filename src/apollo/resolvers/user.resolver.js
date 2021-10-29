@@ -68,7 +68,8 @@ module.exports = {
           email: args.email,
           password: hashedPassword,
           avatar: args.avatar,
-          role: args.role
+          role: args.role,
+          offers: args.offers
           });
             const validation = userValidationSchema.validate(newUser);
           
@@ -97,11 +98,15 @@ module.exports = {
       });
     },
     updateUser: (parent, args) => {
-        const res = User.findByIdAndUpdate(args.id,{firstName: args.firstName,lastName: args.lastName,email: args.email ,password: args.password, avatar: args.avatar,role: agrs.role, address: args.address, phoneNumber: args.phoneNumber}).catch((err)=>{console.log(err)});
+        const res = User.findByIdAndUpdate(args.id,{firstName: args.firstName,lastName: args.lastName,email: args.email ,password: args.password, avatar: args.avatar,role: agrs.role, address: args.address, phoneNumber: args.phoneNumber, offers: args.offers}).catch((err)=>{console.log(err)});
         return res;
     },
     deleteUser: (parent, args) => {
         return User.findByIdAndDelete(args.id).catch((err)=>console.log(err));
-    }
+    },
+    deleteAllUser: () => {
+      User.deleteMany().catch((err)=>console.log(err));
+      return "";
+    },
   },
 };

@@ -16,7 +16,11 @@ const userSchema = new Schema({
     role: {
         type: String,
         enum: ['Buyer','Seller','Admin'],
-    }
+    },
+    //necessaire pour les seller afin de connaitre les buyers interesse par le produit
+    offers: [
+        {userId: {type: Schema.Types.ObjectId, ref: 'User'}, productId: {type: Schema.Types.ObjectId, ref: 'Product'}}
+    ]
 },
     { timestamps: true }
 );

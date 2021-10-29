@@ -16,6 +16,15 @@ module.exports = gql`
         avatar: String
         address: Address
         role: Role!
+        offers: [Offer]
+    }
+    type Offer {
+        userId: ID
+        productId: ID
+    }
+    input OfferInput {
+        userId: String
+        productId: String
     }
     type Address {
         lat: Float!
@@ -38,9 +47,9 @@ module.exports = gql`
         logout: SignIn
     }
     extend type Mutation {
-        createUser(firstName: String!, lastName: String!,phoneNumber:String!,address: AddressInput, email: String!, password: String!, avatar: String!,role:String!): User
-        updateUser(id:ID!,firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!): User
+        createUser(firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!,offers: OfferInput): User
+        updateUser(id:ID!,firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!,offers: OfferInput): User
         deleteUser(id:ID!): User
-
+        deleteAllUser: String
     }
 `;
