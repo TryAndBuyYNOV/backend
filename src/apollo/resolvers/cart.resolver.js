@@ -13,14 +13,18 @@ module.exports = {
         }
     },
     Mutation : {
-        createCart : (parent, args) => {
+        createCart: (parent, args) => {
             const newCart = new Cart ({
                 totalAmount: args.totalAmount,
                 deliveryPrice: args.deliveryPrice,
                 user: args.user,
                 products: args.products,
+                cartStatus: args.cartStatus
             });
             return newCart.save();
+        },
+        updateCart: (parent, args) => {
+            return Cart.findByIdAndUpdate(args.id,{totalAmount: args.totalAmount, deliveryPrice: args.deliveryPrice, user: args.user, products: args.products,cartStatus: args.cartStatus}).catch((err)=>console.log(err));
         },
         deleteCart: (parent, args) => {
             return Cart.findByIdAndDelete(args.id).catch((err)=>console.log(err));
