@@ -48,7 +48,7 @@ module.exports = gql`
     }
     extend type Mutation {
         createUser(firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!,offers: OfferInput): User
-        updateUser(id:ID!,firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!,offers: OfferInput): User
+        updateUser(id:ID!,firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!): User
         deleteUser(id:ID!): User
         deleteAllUser: String
     }

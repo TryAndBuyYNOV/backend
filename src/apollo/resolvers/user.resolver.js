@@ -77,7 +77,7 @@ module.exports = {
       });
     },
     updateUser: (parent, args) => {
-        const res = User.findByIdAndUpdate(args.id,{firstName: args.firstName,lastName: args.lastName,email: args.email ,password: args.password, avatar: args.avatar,role: agrs.role, address: args.address, phoneNumber: args.phoneNumber, offers: args.offers}).catch((err)=>{console.log(err)});
+        const res = User.findByIdAndUpdate(args.id,{firstName: args.firstName,lastName: args.lastName,email: args.email ,password: args.password, avatar: args.avatar,role: args.role, address: args.address, phoneNumber: args.phoneNumber}).catch((err)=>{console.log(err)});
         return res;
     },
     deleteUser: (parent, args) => {
