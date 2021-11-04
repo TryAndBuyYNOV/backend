@@ -17,7 +17,7 @@ module.exports = gql`
         address: Address
         role: Role!
         offers: [Offer]
-        carts: [Cart]
+        carts: [CartId]
     }
     type Offer {
         userId: ID
@@ -27,7 +27,7 @@ module.exports = gql`
         userId: String
         productId: String
     }
-    type Cart {
+    type CartId {
         cartId: ID
     }
     input CartInput {
