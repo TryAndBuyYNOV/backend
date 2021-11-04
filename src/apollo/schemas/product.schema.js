@@ -28,7 +28,7 @@ module.exports = gql`
   extend type Query {
     products: [Product]
     product(id: ID!): Product
-    productsByUserId(userId: ID!): [Product]
+    productByUserID(id: ID!): [Product]
   }
   extend type Mutation {
     createProduct(userId: ID!, title: String!, priceHT: Float!, description: String!,category: String!,imgUrl: [String!]): Product

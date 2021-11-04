@@ -10,8 +10,8 @@ module.exports = {
       console.log("Get product by id :",args.id);
       return Product.findById(args.id).catch((err)=>console.log(err));
     },
-    productsByUserId: (parent, args) => {
-      const res = Product.find({userId: args.userId}).catch((err)=>console.log(err));
+    productByUserID: (parent, args) => {
+      const res = Product.find({userId: args.id}).catch((err)=>console.log(err));
       return res;
     }
   },
