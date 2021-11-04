@@ -2,20 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const cartSchema = new Schema({
-    totalAmount: Number,
-    deliveryPrice: Number,
-    user: {
+    userId: {
         type: Schema.Types.ObjectId, ref: 'User'
     },
-    products : [{
+    productId: {
         type: Schema.Types.ObjectId, ref: 'Product'
-    }],
+    },
     cartStatus: {
-        type: String,
-        enum: [ 'Rejected', 'ValidateInProgress','Validated']
+        type: String, enum: [ 'Validated', 'ValidationInProgress','Rejected']
     }
 },
-    { timestamps: true }
+{ timestamps: true }
 );
-
 module.exports = mongoose.model('Cart', cartSchema);
