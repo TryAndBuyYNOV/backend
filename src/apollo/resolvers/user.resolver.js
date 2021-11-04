@@ -1,4 +1,5 @@
 const User = require('../../models/user.model');
+const Cart = require('../../models/cart.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const AuthenticationError = require('apollo-server-errors');
@@ -65,7 +66,8 @@ module.exports = {
           password: hashedPassword,
           avatar: args.avatar,
           role: args.role,
-          offers: args.offers
+          offers: [],
+          carts: []
           });
           return newUser.save();
         }
@@ -79,6 +81,19 @@ module.exports = {
     updateUser: (parent, args) => {
         const res = User.findByIdAndUpdate(args.id,{firstName: args.firstName,lastName: args.lastName,email: args.email ,password: args.password, avatar: args.avatar,role: args.role, address: args.address, phoneNumber: args.phoneNumber}).catch((err)=>{console.log(err)});
         return res;
+    },
+    addToCart: async(parent, args) => {
+    const userToUpdate = await User.findById(args.userId);
+    const newCart = new Cart({
+        userId: args.userId,
+        productId: args.productId, 
+        cartStatus: 'ValidationInProgress'
+    });
+    newCart.save();
+    const oldCarts = userToUpdate.carts;
+    const newCarts =  [...oldCarts, {cartId: newCart._id}];
+    userToUpdate.carts = newCarts;
+    return userToUpdate.save();
     },
     deleteUser: (parent, args) => {
         return User.findByIdAndDelete(args.id).catch((err)=>console.log(err));

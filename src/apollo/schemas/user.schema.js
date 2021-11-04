@@ -17,6 +17,7 @@ module.exports = gql`
         address: Address
         role: Role!
         offers: [Offer]
+        carts: [Cart]
     }
     type Offer {
         userId: ID
@@ -25,6 +26,14 @@ module.exports = gql`
     input OfferInput {
         userId: String
         productId: String
+    }
+    type Cart {
+        cartId: ID
+    }
+    input CartInput {
+        userId: ID
+        productId: ID
+        productStatus: String
     }
     type Address {
         lat: Float!
@@ -47,8 +56,9 @@ module.exports = gql`
         logout: SignIn
     }
     extend type Mutation {
-        createUser(firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!,offers: OfferInput): User
+        createUser(firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!,offers: OfferInput, carts: CartInput): User
         updateUser(id:ID!,firstName: String!, lastName: String!, phoneNumber: String!,address:AddressInput, email: String!, password: String!, avatar: String!,role:String!): User
+        addToCart(userId: ID,productId: ID,productStatus: String): User
         deleteUser(id:ID!): User
         deleteAllUser: String
     }
