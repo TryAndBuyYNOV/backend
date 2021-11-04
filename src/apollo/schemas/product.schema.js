@@ -22,16 +22,17 @@ module.exports = gql`
     description: String!
     imgUrl: [String!]
     category: Category!
-    status: ProductStatus!
+    productStatus: ProductStatus!
   }
 
   extend type Query {
     products: [Product]
     product(id: ID!): Product
+    productsByUserId(userId: ID!): [Product]
   }
   extend type Mutation {
-    createProduct(title: String!, priceHT: Float!, description: String!,category: String!,imgUrl: [String!], status: String!): Product
-    updateProduct(id:ID!,title: String!, priceHT: Float!, description: String!,category: String!,imgUrl: [String!], status: String!): Product
+    createProduct(userId: ID!, title: String!, priceHT: Float!, description: String!,category: String!,imgUrl: [String!]): Product
+    updateProduct(id:ID!,title: String!, priceHT: Float!, description: String!,category: String!,imgUrl: [String!], productStatus: String!): Product
     deleteProduct(id:ID!): Product
     deleteAllProduct: String
   }

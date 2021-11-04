@@ -9,6 +9,10 @@ module.exports = {
     product: (parent, args) => {
       console.log("Get product by id :",args.id);
       return Product.findById(args.id).catch((err)=>console.log(err));
+    },
+    productsByUserId: (parent, args) => {
+      const res = Product.find({userId: args.userId}).catch((err)=>console.log(err));
+      return res;
     }
   },
   Mutation: {
@@ -20,7 +24,7 @@ module.exports = {
         description: args.description,
         category: args.category,
         images: args.imgUrl,
-        productStatus: args.productStatus
+        productStatus: 'ToSell'
       });
       return newProduct.save();
     },
