@@ -13,6 +13,12 @@ module.exports = {
     productByUserID: (parent, args) => {
       const res = Product.find({userId: args.id}).catch((err)=>console.log(err));
       return res;
+    },
+    productCatalog: () => {
+      const res = Product.find({productStatus:"ToSell"}).catch(error=>{
+        console.log(error);
+      });
+      return res;
     }
   },
   Mutation: {
