@@ -3,6 +3,9 @@ const app = express();
 const config = require("../../configs");
 const schema = require("../apollo/schemas");
 const resolvers = require("../apollo/resolvers");
+const apiRouter = require('../routes');
+const bodyParser = require('body-parser');
+
 const port = config.server.port;
 
 const { ApolloServer, gql } = require("apollo-server-express");
@@ -13,6 +16,9 @@ const graphQlServer = new ApolloServer({
 });
 
 graphQlServer.applyMiddleware({ app, path: "/graphql"});
+
+app.use(bodyParser.json());
+app.use('/api/v1', apiRouter);
 
 exports.start = () => {
     app.listen(port, (err) => {
