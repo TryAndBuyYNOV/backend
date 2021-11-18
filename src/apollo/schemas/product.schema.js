@@ -34,6 +34,7 @@ module.exports = gql`
   extend type Mutation {
     createProduct(userId: ID!, title: String!, priceHT: Float!, description: String!,category: String!,imgUrl: [String!]): Product
     updateProduct(id:ID!,title: String!, priceHT: Float!, description: String!,category: String!,imgUrl: [String!], productStatus: String!): Product
+    updateProductStatus(id:ID!, productStatus: String!): Product
     deleteProduct(id:ID!): Product
     deleteAllProduct: String
   }

@@ -38,6 +38,10 @@ module.exports = {
         const res = Product.findByIdAndUpdate(args.id,{title:args.title,priceHT:args.priceHT,description: args.description,images:args.imgUrl,category:args.category,productStatus: args.productStatus}).catch((err)=>{console.log(err)});
         return res;
     },
+    updateProductStatus: (parent, args) => {
+      const res = Product.findByIdAndUpdate(args.id,{productStatus: args.productStatus}).catch((err)=>{console.log(err)});
+      return res;
+    },
     deleteProduct: (parent, args) => {
         return Product.findByIdAndDelete(args.id).catch((err)=>console.log(err));
     },
