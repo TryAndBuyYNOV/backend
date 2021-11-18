@@ -29,7 +29,7 @@ module.exports = {
         priceHT: args.priceHT,
         description: args.description,
         category: args.category,
-        images: args.imgUrl,
+        imgUrl: args.imgUrl,
         productStatus: 'ToSell'
       });
       return newProduct.save();
