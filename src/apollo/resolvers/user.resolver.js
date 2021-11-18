@@ -53,6 +53,12 @@ module.exports = {
         token: null
       };
       return (result);
+    },
+    wishlist: (parent, args) => {
+      const userId = args.userId;
+      console.log("read wishlist of ",userId);
+      const res = User.findById(userId).then(data=>{return data.wishlist}).catch(err=>console.log(err));
+      return res;
     }
   },
   Mutation: {
@@ -98,6 +104,13 @@ module.exports = {
     const newCarts =  [...oldCarts, {cartId: newCart._id}];
     userToUpdate.carts = newCarts;
     return userToUpdate.save();
+    },
+    addToWishlist: async (parent, args) => {
+      const userId = args.userId;
+      const productId = args.productId;
+      const currentWishlist = await User.findById(userId).then(data=>{return data.wishlist}).catch(err=>console.log(err));
+      const newWishlist = [...currentWishlist,{productId}];
+      return User.findByIdAndUpdate(userId,{wishlist: newWishlist}).then(()=>{return "add product to wishlist successfully"}).catch(err=>console.log(err));
     },
     deleteUser: (parent, args) => {
         return User.findByIdAndDelete(args.id).catch((err)=>console.log(err));
