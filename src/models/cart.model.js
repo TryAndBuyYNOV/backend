@@ -10,9 +10,10 @@ const cartSchema = new Schema({
     },
     productId: {
         type: Schema.Types.ObjectId, ref: 'Product'
+        
     },
     cartStatus: {
-        type: String, enum: [ 'Validated', 'ValidationInProgress','Rejected']
+        type: String, enum: [ 'Validated', 'ValidationInProgress','Rejected','Payed','Canceled']
     }
 },
 { timestamps: true }

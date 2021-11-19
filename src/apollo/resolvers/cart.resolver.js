@@ -1,4 +1,5 @@
 const Cart = require('../../models/cart.model');
+const Product = require('../../models/product.model')
 
 module.exports = {
   Query: {
@@ -13,7 +14,8 @@ module.exports = {
     } ,
 
     cartsBySellerID: (parent, args) => {
-      return Cart.find({sellerID: args.id}).catch((err)=>console.log(err));
+      return Cart.find({sellerID: args.id})
+      .catch((err)=>console.log(err));
     } ,
 
   } , 
@@ -38,7 +40,28 @@ module.exports = {
 
     decisionCart : (parent , args)=>{
 
-      return Cart.findByIdAndUpdate(args.id,{cartStatus:args.decision}).catch(error=>{
+      return Cart.findByIdAndUpdate(args.id,{cartStatus:args.decision})
+      .then(result=>{
+        if(args.decision=="Validated")
+        {
+        const productId = result.productId
+          Product.findByIdAndUpdate(productId , {productStatus :"SellingInProgress"}).catch(error=>{
+          console.log(error);
+        })
+
+        }
+           if(args.decision=="Canceled")
+        {
+        const productId = result.productId
+          Product.findByIdAndUpdate(productId , {productStatus :"ToSell"}).catch(error=>{
+          console.log(error);
+        })
+
+        }
+       
+
+      })
+      .catch(error=>{
         console.log(error);
       })
     }
