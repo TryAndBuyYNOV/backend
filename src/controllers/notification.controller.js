@@ -19,7 +19,6 @@ exports.acceptedOffer = (req, res) => {
     console.log("Trying to send email",email);
     sgMail.send(email).then(() => {
         console.log('Email sent');
-        res.send('email sent to bu');
         email.save().catch(err=>console.log('error while trying to save email in bdd',err));
     })
     .catch((error) => {
